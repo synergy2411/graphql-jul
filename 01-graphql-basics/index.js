@@ -10,10 +10,10 @@ const users = [
     {id : "104", name : "alice doe", email : "alice@test.com", age : 35},
 ]
 const posts = [
-    {id : "201", title : "GraphQL Beginners", body : "Awesome course", published : true},
-    {id : "202", title : "GraphQL 101", body : "Great course", published : false},
-    {id : "203", title : "GraphQL eBook", body : "....", published : true},
-    {id : "204", title : "How to GraphQL", body : "Loved it", published : false},
+    {id : "201", title : "GraphQL Beginners", body : "Awesome course", published : true, author : "101"},
+    {id : "202", title : "GraphQL 101", body : "Great course", published : false, author : "101"},
+    {id : "203", title : "GraphQL eBook", body : "....", published : true, author : "102"},
+    {id : "204", title : "How to GraphQL", body : "Loved it", published : false, author : "103"},
 ]
 const typeDefs = `
     type Query {
@@ -29,12 +29,14 @@ const typeDefs = `
         title : String!
         body : String!
         published : Boolean!
+        author : User!
     }
     type User {
         id : ID!
         name : String!
         age : Int!
         email : String!
+        posts : [Post!]!
     }
 `
 const resolvers = {
@@ -56,6 +58,16 @@ const resolvers = {
         },
         posts() {
             return posts;
+        }
+    },
+    Post : {
+        author(parent, args, ctx, info){
+           return users.find(user => user.id === parent.author )
+        }
+    },
+    User : {
+        posts(parent, args, ctx, info){
+            return posts.filter(post => post.author === parent.id)
         }
     }
 }
