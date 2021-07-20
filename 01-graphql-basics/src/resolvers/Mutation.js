@@ -33,6 +33,23 @@ const Mutation = {
         db.comments = db.comments.filter(comment => comment.author !== args.id)
         return deletedUser;
     },
+    updateUser(parent, args, {db}, info){
+        const {name, email, age} = args.data;
+        const user = db.users.find(user => user.id === args.id)
+        if(!user){
+            throw new Error("User does not exist")
+        }
+        if(typeof name === 'string'){
+            user.name = name;
+        }
+        if(typeof email === 'string'){
+            user.email = email;
+        }
+        if(typeof age !== 'undefined'){
+            user.age = age;
+        }
+        return user;
+    },
     createPost(parent, args, {db}, info){
         const {title, body, published, authorId} = args.data;
         const match = db.users.some(user => user.id === authorId)
@@ -55,6 +72,23 @@ const Mutation = {
         db.comments = db.comments.filter(comment => comment.post !== args.id)
 
         return deletedPost;
+    },
+    updatePost(parent, args, {db}, info){
+        const {title, body, published } = args.data;
+        const post = db.posts.find(post => post.id === args.id)
+        if(!post){
+            throw new Error("Uanble to find post")
+        }
+        if(typeof title === 'string'){
+            post.title = title
+        }
+        if(typeof body === 'string'){
+            post.body = body
+        }
+        if(typeof published === 'boolean'){
+            post.published = published
+        }
+        return post;
     },
     createComment(parent, args, {db}, info){
         const {text, postId, authorId} = args.data;
