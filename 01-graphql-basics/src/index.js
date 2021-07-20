@@ -22,4 +22,5 @@ const server = new GraphQLServer({
 
 server.start({port : 9099}, () => {console.log("GraphQL Server started at PORT : 9099")})
 
+// Query - READ
 // Mutation - CREATE, DELETE, UPDATE
