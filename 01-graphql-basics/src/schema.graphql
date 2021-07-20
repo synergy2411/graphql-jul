@@ -14,6 +14,20 @@ type Mutation {
   deleteComment(id: ID!): Comment!
   updateComment(id: ID!, data: UpdateCommentInput): Comment!
 }
+type Subscription {
+  count: Int!
+  comment(postId: ID!): CommentSubscriptionPayload!        
+}
+type CommentSubscriptionPayload {
+  comment : Comment!
+  mutate : String!
+}
+
+enum Mutate {
+  CREATED
+  UPDATED
+  DELETED
+}
 input UpdateCommentInput {
   text: String
 }

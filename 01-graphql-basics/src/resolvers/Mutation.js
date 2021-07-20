@@ -90,7 +90,7 @@ const Mutation = {
         }
         return post;
     },
-    createComment(parent, args, {db}, info){
+    createComment(parent, args, {db, pubsub}, info){
         const {text, postId, authorId} = args.data;
         const userExists = db.users.some(user => user.id === authorId)
         const postExists = db.posts.some(post => post.id === postId)
@@ -99,15 +99,25 @@ const Mutation = {
         }
         const newComment = { id : v4(), text, post : postId, author : authorId}
         db.comments.push(newComment)
+        pubsub.publish(`comment ${postId}`, {comment : {
+            comment : newComment,
+            mutate : "CREATED"
+        }})
         return newComment
     },
-    deleteComment(parent, args, {db}, info){
+    deleteComment(parent, args, {db, pubsub}, info){
         const position = db.comments.findIndex(comment => comment.id === args.id)
         if(position === -1)
         {
             throw new Error("Unable to delete commen")
         }
         const [deletedComment]= db.comments.splice(position, 1)
+        pubsub.publish(`comment ${deletedComment.post}`, {
+            comment : {
+                comment : deletedComment,
+                mutate : "DELETED"
+            }
+        })
         return deletedComment;
     },
     updateComment(parent, args, {db}, info){
