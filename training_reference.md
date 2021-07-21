@@ -14,3 +14,16 @@
     - @babel/cli
     - @babel/preset-env
     - @babel/node
+
+# To connect database
+    - npm install prisma -save-dev
+    - npx prisma
+    - npx prisma init                       (Create a new Prisma Project)
+    - npx prisma migrate dev                (Migrate PSL with database)
+    - npm install @prisma/client --save     (Generate Prisma Client)
+    - npx prisma studio                     (kick-start the GUI Tool - view / edit the data - http://localhost:5555)
+
+    - npm install bcryptjs --save           (For hashify the password field)
+
+    
+- nodemon src/utils/prisma-basics.js
