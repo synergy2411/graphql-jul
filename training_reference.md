@@ -24,6 +24,7 @@
     - npx prisma studio                     (kick-start the GUI Tool - view / edit the data - http://localhost:5555)
 
     - npm install bcryptjs --save           (For hashify the password field)
+    - npm install jsonwebtoken --save       (Generate / Verify JWT Token)
 
     
 - nodemon src/utils/prisma-basics.js
