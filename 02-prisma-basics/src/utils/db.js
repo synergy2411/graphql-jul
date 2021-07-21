@@ -12,11 +12,30 @@ const createUser = async(parent, args, ctx, info) => {
     return {...user, password : null};
 }
 
+const createPost = async(parent, args, ctx, info) => {
+    const { title, body, published, authorId } = args.data;
+    const post = await prisma.post.create({
+        data: {
+            title, body, published, author : { connect : { id : Number(authorId)}}
+        },
+        include: {
+            author : true
+        }
+    })
+    return post
+}
+
 const fetchUsers = async (parent, args, ctx, info)=>{
-    return await prisma.user.findMany()
+    const users =  await prisma.user.findMany({include: { posts : true}})
+    const allUsers = users.map(user => {
+        user.password=null;
+        return user
+    })
+    return allUsers;
 }
 
 module.exports = {
     createUser,
-    fetchUsers
+    fetchUsers,
+    createPost
  }
