@@ -1,9 +1,19 @@
 type Query {
     users: [User]
+    posts: [Post]
 }
 type Mutation {
     createUser (data: CreateUserInput ) : User!
     createPost(data: CreatePostinput ): Post!
+    login(data: LoginInput): AuthPayload
+}
+input LoginInput{
+    email: String!
+    password: String!
+}
+type AuthPayload {
+    token: String!
+    user: User!
 }
 type Post {
     id: ID!

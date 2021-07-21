@@ -1,8 +1,9 @@
-const { createUser, createPost } = require("../utils/db")
+const { createUser, createPost, login } = require("../utils/db")
 
 const Mutation = {
     createUser,
-    createPost
+    createPost,
+    login
 }
 
 module.exports = Mutation

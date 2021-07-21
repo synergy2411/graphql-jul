@@ -33,9 +33,34 @@ const fetchUsers = async (parent, args, ctx, info)=>{
     })
     return allUsers;
 }
+const fetchPosts = async(parent, args, ctx, info) => {
+    return await prisma.post.findMany({include: { author : true}})
+}
+
+const login = async(parent, args, ctx, info) => {
+    const { email, password } = args.data;
+    const user = await prisma.user.findUnique({
+        where: {
+            email
+        }
+    })
+    if(!user){
+        throw new Error("User not found")
+    }
+    const valid = await bcrypt.compare(password, user.password)
+    if(!valid){
+        throw new Error("Not valid")
+    }
+    return {
+        token: "this will get replaced by token",
+        user
+    }
+}
 
 module.exports = {
     createUser,
     fetchUsers,
-    createPost
+    createPost,
+    fetchPosts,
+    login
  }
