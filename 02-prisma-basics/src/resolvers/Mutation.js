@@ -1,8 +1,10 @@
-const { createUser, createPost, login } = require("../utils/db")
+const { createUser, createPost, login, updateUser, deleteAll } = require("../utils/db")
 
 const Mutation = {
     createUser,
     createPost,
+    updateUser,
+    deleteAll,
     login
 }
 

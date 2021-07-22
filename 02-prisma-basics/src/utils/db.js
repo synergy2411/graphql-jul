@@ -9,9 +9,13 @@ const createUser = async (parent, args, ctx, info) => {
   const { name, email, password } = args.data;
   const hashedPassword = await bcrypt.hash(password, 12);
   const user = await prisma.user.create({
-    data: { name, email, password: hashedPassword },
+    data: { 
+      name, email, 
+      password: hashedPassword, 
+      createdAt: new Date().toISOString(),
+      updatedAt :  new Date().toISOString()},
   });
-  return { ...user, password: null };
+  return { ...user, password: null, createdAt : new Date(user.createdAt) };
 };
 
 const createPost = async (parent, args, { token }, info) => {
@@ -35,13 +39,28 @@ const createPost = async (parent, args, { token }, info) => {
 };
 
 const fetchUsers = async (parent, args, ctx, info) => {
-  const users = await prisma.user.findMany({ include: { posts: true } });
+  const where = args.filter ? { 
+    OR : [
+      {name : { contains : args.filter} },
+      {email : { contains : args.filter} }
+    ]
+   } : { }
+  const users = await prisma.user.findMany({ 
+    include: { posts: true },
+    where,
+    skip : args.skip,     // offset
+    take : args.take,      // limit
+    orderBy : args.orderBy
+   });
   const allUsers = users.map((user) => {
     user.password = null;
     return user;
   });
   return allUsers;
 };
+
+
+
 const fetchPosts = async (parent, args, ctx, info) => {
   return await prisma.post.findMany({ include: { author: true } });
 };
@@ -67,10 +86,31 @@ const login = async (parent, args, ctx, info) => {
   };
 };
 
+const updateUser = async(parent, args, ctx, info)=>{
+  const user = await prisma.user.findUnique({where:{id : Number(args.id)}})
+  console.log("FOUND USER - ", user)
+  if(!user){
+    throw new Error("User not found")
+  }
+  const updatedUser = await prisma.user.update({
+    where:{
+      id : Number(args.id)
+    },
+    data: { 
+      ...args.data
+    }
+  })
+  return updatedUser;
+}
+const deleteAll = async() => {
+  return await prisma.user.deleteMany()
+}
 module.exports = {
   createUser,
   fetchUsers,
   createPost,
   fetchPosts,
+  updateUser,
+  deleteAll,
   login,
 };

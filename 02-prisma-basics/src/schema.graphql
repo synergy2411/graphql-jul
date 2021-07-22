@@ -1,11 +1,27 @@
 type Query {
-    users: [User]
+    users(filter: String, skip: Int, take: Int, orderBy: OrderByInput): [User]
     posts: [Post]
+}
+input OrderByInput {
+    name: TheOrder
+    email: TheOrder
+    createdAt: TheOrder
+}
+enum TheOrder {
+    asc
+    desc
 }
 type Mutation {
     createUser (data: CreateUserInput ) : User!
+    updateUser(id: ID!, data: UpdateUserInput ) : User!
+    deleteAll: [User]
     createPost(data: CreatePostinput ): Post!
     login(data: LoginInput): AuthPayload
+}
+input UpdateUserInput {
+    name: String
+    email: String
+    password: String
 }
 input LoginInput{
     email: String!
@@ -28,6 +44,8 @@ type User {
     email: String!
     password: String
     posts: [Post]
+    createdAt: String
+    updatedAt: String
 }
 
 input CreateUserInput {

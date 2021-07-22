@@ -28,3 +28,25 @@
 
     
 - nodemon src/utils/prisma-basics.js
+
+
+# GraphQL - App Deplyment
+1. Sign up on Heroku
+2. Download and install Heroku CLI
+3. Check heroku version > heroku --version
+4. Github Account
+5. Login to Github and create repo
+6. Uploaded all project content to repo
+7. Make adjustments to code for deploy
+    - "start" : "node src/index.js"     (triggered by Heroku)
+    - Adjust the port - process.env.PORT
+8. Login to Heroku
+    - heroku login
+9. Add ssh key to heroku
+    -heroku keys:add
+    - Create SSH Key (ssh-keygen from Powershell) - optional steps, if ssh key is not available
+10. Create the project on Heroku
+    - heroku create <unique_project_name>
+11. Push code to heroku
+    - git remote
+    - git push heroku main
