@@ -43,10 +43,17 @@
 8. Login to Heroku
     - heroku login
 9. Add ssh key to heroku
-    -heroku keys:add
-    - Create SSH Key (ssh-keygen from Powershell) - optional steps, if ssh key is not available
+    - heroku keys:add
+    - Create SSH Key (ssh-keygen from Powershell) - optional step, if ssh key is not available
 10. Create the project on Heroku
     - heroku create <unique_project_name>
 11. Push code to heroku
     - git remote
     - git push heroku main
+
+
+# Created React Project
+    - npx create-react-app <app_name>
+    - cd <app_name>
+    - npm start
+    - npm install @apollo/client graphql --save
