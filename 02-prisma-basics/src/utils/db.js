@@ -20,6 +20,7 @@ const createUser = async (parent, args, ctx, info) => {
 };
 
 const createPost = async (parent, args, { token }, info) => {
+  console.log("CREATE USER TOKEN - ", token)
   const { title, body, published, authorId } = args.data;
   const { id } = await jwt.verify(token, process.env.SECRET_KEY);
   if (id !== Number(authorId)) {
