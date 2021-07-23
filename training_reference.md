@@ -57,3 +57,11 @@
     - cd <app_name>
     - npm start
     - npm install @apollo/client graphql --save
+
+
+# Setting up test environment
+    - npm install jest --save-dev
+    - separate the server from the index file
+    - created test inside the "tests" folder
+    - test script created : jest --watch --detectOpenHandles
+    - npm run test

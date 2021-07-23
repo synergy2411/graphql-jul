@@ -1,5 +1,5 @@
 import './App.css';
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_USER, GET_USERS } from './GraphQL/Query';
 
 function App() {
