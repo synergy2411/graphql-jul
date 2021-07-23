@@ -4,6 +4,7 @@ const { ApolloClient, InMemoryCache, gql, HttpLink } = require("@apollo/client")
 const fetch = require("cross-fetch")
 const { PrismaClient } = require("@prisma/client")
 const jwt = require("jsonwebtoken");
+require("dotenv").config()
 
 let serverInstance = null;
 let client = null;
@@ -99,7 +100,7 @@ test("Should login as a User", async () => {
         mutation : userLogin
     })
 
-    const {id} = await jwt.verify(response.data.login.token, "MY_SUPER_SECRET_KEY")
+    const {id} = await jwt.verify(response.data.login.token, process.env.SECRET_KEY)
     
     expect(id).toEqual(Number(response.data.login.user.id))
 })

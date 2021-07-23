@@ -65,3 +65,5 @@
     - created test inside the "tests" folder
     - test script created : jest --watch --detectOpenHandles
     - npm run test
+    - npm install @apollo/client graphql react cross-fetch --save-dev
+    - npm install dotenv --save (to get the environment variables and attach with process.env object)

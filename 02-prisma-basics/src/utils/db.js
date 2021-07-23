@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const bcrypt = require("bcryptjs");
 
@@ -20,7 +21,7 @@ const createUser = async (parent, args, ctx, info) => {
 
 const createPost = async (parent, args, { token }, info) => {
   const { title, body, published, authorId } = args.data;
-  const { id } = await jwt.verify(token, "MY_SUPER_SECRET_KEY");
+  const { id } = await jwt.verify(token, process.env.SECRET_KEY);
   if (id !== Number(authorId)) {
     throw new Error('Bad Credentials')
     }
@@ -79,7 +80,7 @@ const login = async (parent, args, ctx, info) => {
   if (!valid) {
     throw new Error("Not valid");
   }
-  const token = jwt.sign({ id: user.id }, "MY_SUPER_SECRET_KEY");
+  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
   return {
     token,
     user,
